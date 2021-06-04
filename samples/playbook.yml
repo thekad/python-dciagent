@@ -1,0 +1,10 @@
+- hosts: localhost
+  tasks:
+    - name: "Get hostname"
+      command: hostname
+      changed_when: false
+      register: hostname
+
+    - name: "Print hostname"
+      debug:
+        var: hostname.stdout
