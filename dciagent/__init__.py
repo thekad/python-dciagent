@@ -1,1 +1,6 @@
-__version__ = "0.1.0"
+try:
+    import importlib.metadata as metadata
+except ModuleNotFoundError:
+    import importlib_metadata as metadata
+
+__version__ = metadata.version("python-dciagent")

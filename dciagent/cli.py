@@ -35,7 +35,7 @@ import importlib
 import os
 import sys
 
-VERSION = "0.1"
+import dciagent
 
 
 def main():
@@ -50,7 +50,7 @@ def main():
         "-v",
         "--version",
         action="version",
-        version="%(prog)s {}".format(VERSION),
+        version="%(prog)s {}".format(dciagent.__version__),
     )
     ap.add_argument(
         "-C",
