@@ -9,25 +9,28 @@ packages = [
 ]
 
 [tool.poetry.dependencies]
-python = "^2.7 || ^3.6"
-click = [
-    { version = "^7.1.2", python = "^2.7" },
-    { version = "^8.0.1", python = "^3.6" }
-]
-ansible-runner = "^1.4.7"
+python = "^3.6.8"
 
 [tool.poetry.dev-dependencies]
-pytest = [
-    { version = "^4.6", python = "^2.7" },
-    { version = "^6.2", python = "^3.6" }
-]
+pytest = "^6.2.5"
+flake8 = "^4.0.1"
+pre-commit = "^2.16.0"
+# needs to be compatible with click ^6.7
+black = "^21.12b0"
 
 [tool.poetry.scripts]
-agent-ctl = "dciagent.main:cli"
+dci-agent-ctl = "dciagent.cli:main"
 
 [tool.black]
 line-length = 88
-target_version = ['py27', 'py36']
+target_version = ['py36']
+extend-exclude = '''
+/(
+  | __pycache__
+  | .pytest_cache
+  | .*\.egg-info
+)/
+'''
 
 [build-system]
 requires = ["poetry_core>=1.0.0"]
