@@ -15,58 +15,58 @@
 import os.path
 import shlex
 
-import dciagent.core.agent as agent
+import dciagent.core.agents as agents
 import dciagent.core.errors as errors
 
 
-class Agent(agent.Base):
+class Agent(agents.Base):
     executable = "ansible-playbook"
     default_ansible_config = "/etc/ansible/ansible.cfg"
     default_ansible_inventory = "/etc/ansible/hosts"
     default_playbook = None
     environment = {}
-    ansible_config = agent.Argument(
+    ansible_config = agents.Argument(
         "override path to ansible.cfg",
         short="-c",
         long="--ansible-config",
         env="ANSIBLE_CONFIG",
     )
-    ansible_limit = agent.Argument(
+    ansible_limit = agents.Argument(
         "limit playbook execution to the given subset",
         short="-l",
         long="--ansible-limit",
         env="ANSIBLE_LIMIT",
     )
-    ansible_tags = agent.Argument(
+    ansible_tags = agents.Argument(
         "only execute the tasks marked with this list of tags",
         short="-t",
         long="--ansible-tags",
         env="ANSIBLE_TAGS",
     )
-    ansible_skip_tags = agent.Argument(
+    ansible_skip_tags = agents.Argument(
         "skip the tasks marked with this list of tags",
         long="--ansible-skip-tags",
         env="ANSIBLE_SKIP_TAGS",
     )
-    ansible_args = agent.Argument(
+    ansible_args = agents.Argument(
         "any extra arguments to be passed to ansible-playbook 'as is'",
         long="--ansible-args",
         env="ANSIBLE_ARGS",
     )
-    ansible_extra_vars = agent.Argument(
+    ansible_extra_vars = agents.Argument(
         "any extra variables to be passed to the ansible playbook run",
         short="-e",
         long="--ansible-extra-vars",
         env="ANSIBLE_EXTRA_VARS",
         action="append",
     )
-    ansible_inventory = agent.Argument(
+    ansible_inventory = agents.Argument(
         "path to the ansible inventory",
         short="-i",
         long="--ansible-inventory",
         env="ANSIBLE_INVENTORY",
     )
-    playbook = agent.Argument(
+    playbook = agents.Argument(
         "path to the ansible playbook(s) to execute",
         nargs="?",
         dest="playbook",

@@ -18,10 +18,10 @@ A DCI ansible control command for the OpenShift agent
 import os
 import sys
 
-import dciagent.core.agent.ansible
+from dciagent.core.agents.ansible import Agent as AnsibleAgent
 
 
-class Agent(dciagent.core.agent.ansible.Agent):
+class Agent(AnsibleAgent):
     "ansible-ctl"
 
     default_playbook = os.path.join(os.path.dirname(__file__), "playbook.yml")

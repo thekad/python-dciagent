@@ -15,18 +15,18 @@
 Just a dummy test agent entrypoint
 """
 
-import os.path
 import sys
 
-import dciagent.core.agent
-import dciagent.core.printer as printer
+from dciagent.core.agents import Base as BaseAgent
+from dciagent.core.agents import Argument
+from dciagent.core import printer
 
 
-class Agent(dciagent.core.agent.Base):
+class Agent(BaseAgent):
     "dummy-ctl"
 
     executable = "uptime"
-    pretty = dciagent.core.agent.Argument(
+    pretty = Argument(
         "pretty print", short="-p", long="--pretty", action="store_true"
     )
 
