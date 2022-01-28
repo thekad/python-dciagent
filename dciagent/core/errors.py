@@ -11,8 +11,18 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
+"""
+DCI Agent Control exceptions
+"""
 
-def header(title, char="*"):
-    print(char * len(title))
-    print(title)
-    print(char * len(title))
+
+class ValidationError(Exception):
+    "Raised when the passed arguments are not valid"
+
+    pass
+
+
+class ArgumentError(Exception):
+    "Raised when the defined argument is invalid"
+
+    pass

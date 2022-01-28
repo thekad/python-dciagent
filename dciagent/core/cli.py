@@ -47,12 +47,6 @@ def main():
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     ap.add_argument(
-        "-v",
-        "--version",
-        action="version",
-        version="%(prog)s {}".format(dciagent.__version__),
-    )
-    ap.add_argument(
         "-C",
         "--config-dir",
         help="override path to configuration directory. (env: $DCI_CONFIG_DIR)",
@@ -95,13 +89,6 @@ def main():
         action="count",
         help="specify multiple times to up verbosity. (env: $DCI_VERBOSITY)",
         default=0,
-    )
-    ap.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="only print the commands to be run, don't actually run them"
-        ". (env: $DCI_DRY_RUN)",
-        default=dutils.strtobool(os.getenv("DCI_DRY_RUN", "false")),
     )
     ap.add_argument(
         "--skip-validation",

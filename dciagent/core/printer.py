@@ -11,12 +11,21 @@
 # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 # License for the specific language governing permissions and limitations
 # under the License.
-"""
-DCI Agent Control exceptions
-"""
+
+import contextlib
 
 
-class ValidationError(Exception):
-    "Raised when the passed arguments are not valid"
+def header(title):
+    print("=" * len(title))
+    print(title)
+    print("=" * len(title))
 
-    pass
+
+@contextlib.contextmanager
+def section(title):
+    header(title)
+    try:
+        yield
+    finally:
+        print("-" * len(title))
+        print()

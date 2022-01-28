@@ -15,24 +15,32 @@
 Just a dummy test agent entrypoint
 """
 
-import dciagent.agents
+import os.path
+import sys
+
+import dciagent.core.agent.ansible
+import dciagent.core.printer as printer
 
 
-class Agent(dciagent.agents.Ansible):
-    "An example dummy agent"
+class Agent(dciagent.core.agent.ansible.Agent):
+    "dummy-ctl"
 
-    default_playbook = "samples/playbook.yml"
+    default_playbook = os.path.join(os.path.dirname(__file__), "playbook.yml")
 
     def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+        super().__init__(self.__doc__, __doc__, "0.1", **kwargs)
 
-    def _build_env(self):
-        self.environment = {"ANSIBLE_CFG": self.ansible_cfg}
+    def _pre(self):
+        printer.header("Running pre-execution hook")
 
-    def _build_command(self):
-        self.command_line = [
-            self.executable,
-            self.playbook,
-        ]
-        if self.verbosity > 0:
-            self.command_line.append("-{}".format("v" * self.verbosity))
+    def _post(self):
+        printer.header("Running post-execution hook")
+
+
+def main():
+    agent = Agent()
+    return agent.run(sys.argv[1:])
+
+
+if __name__ == "__main__":
+    sys.exit(main())
