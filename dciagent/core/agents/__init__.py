@@ -13,6 +13,7 @@
 # under the License.
 
 import argparse
+import distutils.util as distutil
 import os
 import shutil
 import subprocess
@@ -63,6 +64,7 @@ class Argument:
         if self.long is not None:
             args.append(self.long)
 
+        # format help
         help_str = "{}".format(self.help)
         if self.env is not None or self.default is not None:
             help_str += " ("
@@ -78,10 +80,20 @@ class Argument:
             "dest": self.dest,
         }
 
+        # figure out the right default
+        default = None
         if self.env is not None:
-            kwargs["default"] = os.getenv(self.env, self.default)
+            if self.action in (
+                "store_true",
+                "store_false",
+            ):
+                default = distutil.strtobool(os.getenv(self.env, "false"))
+            else:
+                default = os.getenv(self.env, self.default)
         else:
-            kwargs["default"] = self.default
+            default = self.default
+
+        kwargs["default"] = default
 
         if self.type is not None:
             kwargs["type"] = self.type
@@ -154,7 +166,23 @@ class Base(object):
         for k, v in args.items():
             e = getattr(self, k)
             if isinstance(e, Argument):
-                setattr(self, k, v)
+                if e.type is None:
+                    if e.action == "count":
+                        value = int(v)
+                    elif e.action in ("store_true", "store_false",):
+                        value = bool(v)
+                    else:
+                        value = v
+                elif e.type == int:
+                    value = int(v)
+                elif e.type == float:
+                    value = float(v)
+                elif e.type == bool:
+                    value = bool(v)
+                else:
+                    value = str(v)
+
+                setattr(self, k, value)
 
     def _build_env(self):
         pass
@@ -199,7 +227,7 @@ class Base(object):
         rc = 0
         try:
             if self.dry_run:
-                with printer.section("Dry-run mode, should execute the command:"):
+                with printer.section("Dry-run mode, should execute this command:"):
                     print(" \\\n".join(self.command_line))
             else:
                 if len(self.command_line) > 0:
