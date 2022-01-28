@@ -18,14 +18,17 @@ Just a dummy test agent entrypoint
 import os.path
 import sys
 
-import dciagent.core.agent.ansible
+import dciagent.core.agent
 import dciagent.core.printer as printer
 
 
-class Agent(dciagent.core.agent.ansible.Agent):
+class Agent(dciagent.core.agent.Base):
     "dummy-ctl"
 
-    default_playbook = os.path.join(os.path.dirname(__file__), "playbook.yml")
+    executable = "uptime"
+    pretty = dciagent.core.agent.Argument(
+        "pretty print", short="-p", long="--pretty", action="store_true"
+    )
 
     def __init__(self, **kwargs):
         super().__init__(self.__doc__, __doc__, "0.1", **kwargs)
@@ -35,6 +38,11 @@ class Agent(dciagent.core.agent.ansible.Agent):
 
     def _post(self):
         printer.header("Running post-execution hook")
+
+    def _build_command(self):
+        self.command_line = [self.executable]
+        if self.pretty:
+            self.command_line.append("-p")
 
 
 def main():

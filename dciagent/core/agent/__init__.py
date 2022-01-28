@@ -97,6 +97,9 @@ class Argument:
 
 class Base(object):
     executable = None
+    environment = {}
+    command_line = []
+    ap = None
     verbosity = Argument(
         "increase the verbosity",
         short="-v",
@@ -119,8 +122,6 @@ class Base(object):
         default=False,
         env="NO_VALIDATION",
     )
-    command_line = []
-    ap = None
 
     def __init__(self, prog, description, version):
         self.ap = argparse.ArgumentParser(

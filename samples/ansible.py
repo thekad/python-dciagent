@@ -15,18 +15,16 @@
 A DCI ansible control command for the OpenShift agent
 """
 
+import os
 import sys
 
-import dciagent.core.agent.dci as dci
+import dciagent.core.agent.ansible
 
 
-class Agent(dci.Agent):
-    "dci-openshift-agent-ctl"
+class Agent(dciagent.core.agent.ansible.Agent):
+    "ansible-ctl"
 
-    default_playbook = "/usr/share/dci-openshift-agent/dci-openshift-agent.yml"
-    default_config_dir = "/etc/dci-openshift-agent"
-    default_ansible_config = "/usr/share/dci-openshift-agent/ansible.cfg"
-    default_inventory = "hosts"
+    default_playbook = os.path.join(os.path.dirname(__file__), "playbook.yml")
 
     def __init__(self, **kwargs):
         super().__init__(self.__doc__, __doc__, "0.1", **kwargs)
